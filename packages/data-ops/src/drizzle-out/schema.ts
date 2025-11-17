@@ -20,6 +20,8 @@ export const linkClicks = sqliteTable("link_clicks", {
 	longitude: real(),
 },
 (table) => [
+	index("idx_link_clicks_account_id").on(table.accountId),
+	index("idx_link_clicks_clicked_time").on(table.clickedTime),
 	index("idx_link_clicks_id").on(table.id),
 ]);
 
@@ -31,5 +33,8 @@ export const destinationEvaluations = sqliteTable("destination_evaluations", {
 	status: text().notNull(),
 	reason: text().notNull(),
 	createdAt: numeric("created_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-});
+},
+(table) => [
+	index("idx_destination_evaluations_account_time").on(table.accountId, table.createdAt),
+]);
 
